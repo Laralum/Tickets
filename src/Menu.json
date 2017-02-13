@@ -1,0 +1,13 @@
+{
+    "name": "Tickets",
+    "items": [
+        {
+            "text": "View tickets",
+            "route": "laralum::tickets.index"
+        },
+        {
+            "text": "Create Ticket",
+            "route": "laralum::tickets.create"
+        }
+    ]
+}

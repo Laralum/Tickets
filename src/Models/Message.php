@@ -19,4 +19,12 @@ class Message extends Model
      * @var array
      */
     protected $fillable = ['ticket_id', 'receiver', 'message'];
+
+    /**
+     * Get the ticket that owns the message.
+     */
+    public function ticket()
+    {
+        return $this->belongsTo('Ticket');
+    }
 }

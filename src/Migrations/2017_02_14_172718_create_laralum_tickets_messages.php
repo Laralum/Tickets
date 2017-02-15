@@ -29,6 +29,6 @@ class CreateLaralumTicketsMessages extends Migration
      */
     public function down()
     {
-		Schema::drop('laralum_tickets_messages');
+		Schema::dropIfExists('laralum_tickets_messages');
     }
 }

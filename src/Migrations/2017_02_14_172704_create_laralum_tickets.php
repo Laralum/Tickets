@@ -16,8 +16,9 @@ class CreateLaralumTickets extends Migration
         Schema::create('laralum_tickets', function(Blueprint $table) {
 			$table->increments('id');
             $table->string('subject');
+            $table->boolean('opened');
 			$table->integer('user_id');
-			$table->integer('admin_id');
+			$table->integer('admin_id')->nullable();
 			$table->timestamps();
 		});
     }
@@ -29,6 +30,6 @@ class CreateLaralumTickets extends Migration
      */
     public function down()
     {
-        Schema::drop('laralum_tickets');
+        Schema::dropIfExists('laralum_tickets');
     }
 }

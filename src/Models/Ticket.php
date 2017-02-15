@@ -19,7 +19,7 @@ class Ticket extends Model
      *
      * @var array
      */
-    protected $fillable = ['creator', 'user_id', 'admin_id', 'subject', 'description'];
+    protected $fillable = ['user_id', 'opened', 'admin_id', 'subject'];
 
     /**
      * Get the message for the ticket.

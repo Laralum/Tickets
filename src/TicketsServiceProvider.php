@@ -21,11 +21,11 @@ class TicketsServiceProvider extends ServiceProvider
         }
 
         $this->publishes([
-            __DIR__.'/Views/Public' => resource_path('views/vendor/Laralum/Profile'),
-        ], 'laralum');
+            __DIR__.'/Views/Public' => resource_path('views/vendor/Laralum/Tickets'),
+        ], 'laralum_tickets');
 
-        $this->loadViewsFrom(__DIR__.'/Views/Laralum', 'laralum_tickets'); //Loading private views
-        $this->loadViewsFrom(resource_path('views/vendor/Laralum/Tickets'), 'laralum_tickets_public'); //Loading public views
+        $this->loadViewsFrom(__DIR__.'/Views', 'laralum_tickets'); //Loading private views
+        //$this->loadViewsFrom(resource_path('views/vendor/Laralum/Tickets'), 'laralum_tickets_public'); //Loading public views
         $this->loadMigrationsFrom(__DIR__.'/Migrations');
 
     }

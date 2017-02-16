@@ -10,7 +10,7 @@
                     @lang('laralum_tickets::tickets.create')
                 </div>
                 <div class="card-block">
-                    <form method="POST">
+                    <form action="{{route('laralum::tickets.index')}}" method="POST">
                         {!! csrf_field() !!}
 
                         <div class="form-group">

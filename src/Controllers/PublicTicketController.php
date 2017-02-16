@@ -17,7 +17,7 @@ class PublicTicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function tickets()
+    public function index()
     {
         $openedTickets = Ticket::where(['user_id' => Auth::id(), 'opened' => true])->orderBy('updated_at','desc')->get();
         $closedTickets = Ticket::where(['user_id' => Auth::id(), 'opened' => false])->orderBy('updated_at','desc')->get();
@@ -30,7 +30,7 @@ class PublicTicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function createTicket()
+    public function create()
     {
         return view('laralum_tickets::public.create');
     }
@@ -43,7 +43,7 @@ class PublicTicketController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function saveTicket(Request $request)
+    public function store(Request $request)
     {
         $this->validate($request, [
             'subject' => 'required|min:6|max:255',
@@ -73,7 +73,7 @@ class PublicTicketController extends Controller
      * @param $ticket
      * @return \Illuminate\Http\Response
      */
-    public function closeTicket($ticket)
+    public function close($ticket)
     {
         Ticket::findOrFail($ticket)->update([
             'opened' => false
@@ -87,7 +87,7 @@ class PublicTicketController extends Controller
      * @param $ticket
      * @return \Illuminate\Http\Response
      */
-    public function openTicket($ticket)
+    public function open($ticket)
     {
         Ticket::findOrFail($ticket)->update([
             'opened' => true
@@ -102,7 +102,7 @@ class PublicTicketController extends Controller
      * @param $ticket
      * @return \Illuminate\Http\Response
      */
-    public function showTicket($ticket)
+    public function show($ticket)
     {
         $thisTicket = Ticket::findOrFail($ticket);
         $messages = $thisTicket->messages;
@@ -117,7 +117,7 @@ class PublicTicketController extends Controller
      * @param $ticket
      * @return \Illuminate\Http\Response
      */
-    public function replyTicket($ticket)
+    public function reply($ticket)
     {
         $thisTicket = Ticket::findOrFail($ticket);
         return view('laralum_tickets::public.reply', ['ticket' => $thisTicket]);
@@ -131,7 +131,7 @@ class PublicTicketController extends Controller
      * @param $ticket
      * @return \Illuminate\Http\Response
      */
-    public function saveTicketReply(Request $request, $ticket)
+    public function storeReply(Request $request, $ticket)
     {
         $this->validate($request, [
             'message' => 'required|min:10|max:2500'

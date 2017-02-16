@@ -1,7 +1,7 @@
 @extends('laralum::layouts.public')
 @section('title', trans('laralum_tickets::tickets.create'))
 @section('content')
-    <form method="POST">
+    <form action="{{route('laralum_public::tickets.index')}}" method="POST">
         {!! csrf_field() !!}
         <label for="subject">@lang('laralum_tickets::tickets.subject')</label>
         <input id="subject" type="text" name="subject" value="{{ old('subject') }}" class="form-control">

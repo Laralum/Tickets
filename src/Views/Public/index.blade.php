@@ -37,7 +37,6 @@
                             {{$ticket->subject}}
                         </a>
                     </td>
-                    <td>{{Laralum\Users\Models\User::findOrFail($ticket->user_id)->email}}</td>
                     <td>{{$ticket->messages()->count()}}</td>
                     <td>
                             <form action="{{route('laralum_public::tickets.open',['ticket' => $ticket->id])}}"  method="post">

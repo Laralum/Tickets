@@ -59,7 +59,7 @@
                     <span class="float-right">{{$message->created_at->diffForHumans()}}</span>
                 </div>
                 <div class="card-block">
-                    {{$message->message}}
+                    {!! GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($message->message) !!}
                 </div>
             </div>
 

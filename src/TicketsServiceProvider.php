@@ -24,6 +24,8 @@ class TicketsServiceProvider extends ServiceProvider
             __DIR__.'/Views/Public' => resource_path('views/vendor/Laralum/Tickets'),
         ], 'laralum_tickets');
 
+        $this->app->register('GrahamCampbell\\Markdown\\MarkdownServiceProvider');
+        
         $this->loadViewsFrom(__DIR__.'/Views', 'laralum_tickets'); //Loading private views
         //$this->loadViewsFrom(resource_path('views/vendor/Laralum/Tickets'), 'laralum_tickets_public'); //Loading public views
         $this->loadMigrationsFrom(__DIR__.'/Migrations');

@@ -16,7 +16,7 @@
                 </strong>
                 <span>{{$message->created_at->diffForHumans()}}</span>
                 <br><br>
-                {{$message->message}}
+                {!! GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($message->message) !!}
             </div>
             <br>
     @endforeach

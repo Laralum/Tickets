@@ -55,7 +55,7 @@
                     $class = $message->isAdmin() ? $message->isCurrentUser() ?  'ticket-bubble-right ticket-thisadmin-color' : 'ticket-bubble-left ticket-admin-color' : ' ticket-bubble-left ticket-user-color' ;
                 @endphp
                 <div class="uk-width-5-6@s uk-width-4-5@m">
-                    <div class="uk-card uk-card-default {{$class}}">
+                    <div class="uk-card uk-card-default {{$class}}" uk-scrollspy="cls: uk-animation-slide-{{$message->isCurrentUser() ? 'right' : 'left'}}; repeat: false">
                         <div style="background-color:{{ $message->titleColor() }}" class="uk-card-header">
                             <h3 class="uk-card-title" style="color:white;">
                                 @if ($message->isAdmin())

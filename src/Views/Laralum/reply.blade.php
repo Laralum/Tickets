@@ -29,7 +29,7 @@
                                     <i>@lang('laralum_tickets::general.mkdown_supported')</i>
                                 </div>
                                 <div class="uk-margin">
-                                <a href="{{route('laralum::tickets.index')}}" class="uk-align-left uk-button uk-button-default">@lang('laralum::general.cancel')</a>
+                                <a href="{{route('laralum::tickets.show', ['ticket' => $ticket->id])}}" class="uk-align-left uk-button uk-button-default">@lang('laralum::general.cancel')</a>
                                     <button type="submit" class="uk-button uk-button-primary uk-align-right">
                                         <span class="ion-forward"></span>&nbsp; @lang('laralum_tickets::general.reply')
                                     </button>

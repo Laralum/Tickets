@@ -9,10 +9,11 @@ return [
     */
 
     'home'                  => 'Home',
+    'actions'               => 'Actions',
     'ticket'                => 'Ticket',
-    'ticket_id'             => 'Ticket :id',
+    'ticket_id'             => 'Ticket #:id',
     'tickets'               => 'Tickets',
-    'tickets_desc'          => 'View and manage tickets',
+    'tickets_desc'          => 'Tickets provide you with great custommer support and contact options for your users',
     'tickets_show_desc'     => 'Show ticket messages',
 
     'subject'               => 'Subject',
@@ -21,9 +22,9 @@ return [
     'create_ticket'         => 'Create Ticket',
     'tickets_create_desc'   => 'Open a ticket with a user',
 
-    'show_ticket'           => 'Show ticket :id',
-    'close_ticket'          => 'Close ticket :id',
-    'reopen_ticket'         => 'Reopen ticket :id',
+    'show_ticket'           => 'View Ticket',
+    'close_ticket'          => 'Close ticket #:id',
+    'reopen_ticket'         => 'Reopen ticket #:id',
 
     'reply_ticket'          => 'Reply ticket',
     'tickets_reply_desc'    => 'Reply to user with a message',
@@ -31,24 +32,33 @@ return [
     'reply_sent'            => 'Your reply has been sent',
     'reply'                 => 'Reply',
 
-    'customer_support'      => ':name Customer Support',
+    'customer_support'      => 'Customer Support',
 
+    'status'                => 'Status',
+    'ticket_status'         => 'Ticket status',
     'close'                 => 'Close',
-    'closed'                => 'Ticket :id has been closed',
+    'closed'                => 'Ticket #:id has been closed',
+    'ticket_closed'         => 'Ticket Closed',
     'open'                  => 'Open',
-    'reopened'              => 'Ticket :id has been reopened',
-    'opened_tickets'        => 'Opened Tickets',
+    'ticket_open'           => 'Ticket Open',
+    'reopened'              => 'Ticket #:id has been reopened',
+    'open_tickets'          => 'Open Tickets',
     'closed_tickets'        => 'Closed Tickets',
     'no_closed_tickets'     => 'There are no closed tickets!',
     'no_opened_tickets'     => 'There are no opened tickets!',
+    'creation_date'         => 'Creation date',
+    'user_name'             => 'User name',
+    'user_email'            => 'User email',
 
     'view'                  => 'View',
     'created'               => 'Ticket Created',
-    'title'                 => 'Ticket :id',
+    'title'                 => 'Ticket #:id',
     'message'               => 'Message',
     'user_email'            => 'User Email',
     'user_not_found'        => 'User with email :email not found',
     'mkdown_supported'      => 'Markdown syntax supported',
 
-    'ticket_lists'          => 'Ticket Lists',
+    'ticket_list'           => 'Ticket List',
+    'ticket_subtitle'       => "You're viewing ticket #:id created :created",
+    'ticket_information'    => 'Ticket Information',
 ];

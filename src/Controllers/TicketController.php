@@ -18,8 +18,9 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $openedTickets = Ticket::where('user_id', '!=', Auth::id())->where('opened', true)->orderBy('updated_at','desc')->get();
-        $closedTickets = Ticket::where('user_id', '!=', Auth::id())->where('opened', false)->orderBy('updated_at','desc')->get();
+        $openedTickets = Ticket::where('user_id', '!=', Auth::id())->where('open', true)->orderBy('updated_at','desc')->get();
+        $closedTickets = Ticket::where('user_id', '!=', Auth::id())->where('open', false)->orderBy('updated_at','desc')->get();
+
         return view('laralum_tickets::laralum.index', ['openedTickets' => $openedTickets, 'closedTickets' => $closedTickets]);
     }
 
@@ -45,20 +46,21 @@ class TicketController extends Controller
         $this->validate($request, [
             'email' => 'required',
             'subject' => 'required|min:6|max:255',
-            'message' => 'required|min:10|max:2500'
+            'message' => 'required|min:10|max:2500',
         ]);
-        $user = User::where('email',$request->email)->first();
-        if ($user == User::findOrFail(Auth::id())) {
-            return redirect()->back()->withInput()->with('error',trans('laralum_tickets::tickets.cannot_open_ticket_yourself'));
-        }
-        if (!$user) {
-            return redirect()->back()->withInput()->with('error',trans('laralum_tickets::tickets.user_not_found',['email' => $request->email]));
+
+        $user = User::where('email', $request->email)->first();
+
+        if ( !$user ) {
+            return redirect()->back()->withInput()->with('error', __('laralum_tickets::general.user_not_found', ['email' => $request->email]));
+        } elseif( $user == User::findOrFail(Auth::id()) ) {
+            return redirect()->back()->withInput()->with('error', __('laralum_tickets::general.cannot_open_ticket_yourself'));
         }
 
         $ticket = Ticket::create([
             'subject' => $request->subject,
             'user_id' => $user->id,
-            'opened' => true,
+            'open' => true,
             'admin_id' => Auth::id()
         ]);
 
@@ -68,88 +70,69 @@ class TicketController extends Controller
             'user_id' => Auth::id()
         ]);
 
-        return redirect()->route('laralum::tickets.show', ['ticket' => $ticket->id])->with('success',trans('laralum_tickets::tickets.created'));
+        return redirect()->route('laralum::tickets.show', ['ticket' => $ticket->id])->with('success', __('laralum_tickets::general.created'));
 
     }
 
     /**
      * Close ticket.
      *
-     * @param $ticket
+     * @param  \Laralum\Tickets\Models\Ticket $ticket
      * @return \Illuminate\Http\Response
      */
-    public function close($ticket)
+    public function close(Ticket $ticket)
     {
-        Ticket::findOrFail($ticket)->update([
-            'opened' => false
+        $ticket->update([
+            'open' => false
         ]);
-        return redirect()->route('laralum::tickets.index')->with('success', trans('laralum_tickets::tickets.closed', ['id' => '#'.$ticket]));
+        return redirect()->back()->with('success', __('laralum_tickets::general.closed', ['id' => $ticket->id]));
     }
 
     /**
      * Open ticket.
      *
-     * @param $ticket
+     * @param  \Laralum\Tickets\Models\Ticket $ticket
      * @return \Illuminate\Http\Response
      */
-    public function open($ticket)
+    public function open(Ticket $ticket)
     {
-        Ticket::findOrFail($ticket)->update([
-            'opened' => true
+        $ticket->update([
+            'open' => true
         ]);
-        return redirect()->route('laralum::tickets.index')->with('success', trans('laralum_tickets::tickets.reopened', ['id' => '#'.$ticket]));
+        return redirect()->back()->with('success', __('laralum_tickets::general.reopened', ['id' => $ticket->id]));
 
     }
 
     /**
      * Show ticket.
      *
-     * @param $ticket
+     * @param  \Laralum\Tickets\Models\Ticket $ticket
      * @return \Illuminate\Http\Response
      */
-    public function show($ticket)
+    public function show(Ticket $ticket)
     {
-        $thisTicket = Ticket::findOrFail($ticket);
-        $messages = $thisTicket->messages;
-        return view('laralum_tickets::laralum.show', ['ticket' => $thisTicket, 'messages' => $messages]);
-
+        return view('laralum_tickets::laralum.show', ['ticket' => $ticket]);
     }
 
+    /**
+     * Saves the reply.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laralum\Tickets\Models\Ticket $ticket
+     * @return \Illuminate\Http\Response
+     */
+    public function reply(Request $request, Ticket $ticket)
+    {
+        $this->validate($request, [
+            'message' => 'required|min:10|max:2500'
+        ]);
 
+        Message::create([
+            'message' => $request->message,
+            'ticket_id' => $ticket->id,
+            'user_id' => Auth::id()
+        ]);
 
-        /**
-         * Display a reply form.
-         *
-         * @param $ticket
-         * @return \Illuminate\Http\Response
-         */
-        public function reply($ticket)
-        {
-            $thisTicket = Ticket::findOrFail($ticket);
-            return view('laralum_tickets::laralum.reply', ['ticket' => $thisTicket]);
-
-        }
-
-        /**
-         * Saves the reply.
-         *
-         * @param  \Illuminate\Http\Request  $request
-         * @param $ticket
-         * @return \Illuminate\Http\Response
-         */
-        public function storeReply(Request $request, $ticket)
-        {
-            $this->validate($request, [
-                'message' => 'required|min:10|max:2500'
-            ]);
-
-            Message::create([
-                'message' => $request->message,
-                'ticket_id' => Ticket::findOrFail($ticket)->id,
-                'user_id' => Auth::id()
-            ]);
-
-            return redirect()->route('laralum::tickets.show', ['ticket' => $ticket])->with('success',trans('laralum_tickets::tickets.reply_sent'));
-
-        }
+        return redirect()->route('laralum::tickets.show', ['ticket' => $ticket])->with('success', __('laralum_tickets::general.reply_sent'));
+    }
 }

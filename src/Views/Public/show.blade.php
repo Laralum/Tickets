@@ -1,24 +1,26 @@
 @extends('laralum::layouts.public')
-@section('title', trans('laralum_tickets::tickets.ticket_id', ['id' => '#'.$ticket->id]))
-@php
-    $settings = Laralum\Settings\Models\Settings::first();
-@endphp
+@section('title', trans('laralum_tickets::general.ticket_id', ['id' => $ticket->id]))
 @section('content')
-    <h2>{{$ticket->subject}}</h2>
-    @foreach ($messages as $message)
-            <div style="background-color:{{$message->color()}};">
+    <h2>{{ $ticket->subject }}</h2>
+    @foreach ($ticket->messages as $message)
+            <div>
                 <strong>
-                    @if ($message->isAdmin())
-                        @lang('laralum_tickets::tickets.customer_support',['name' => $settings->appname])
-                    @else
-                        {{Laralum\Users\Models\User::findOrFail($message->user_id)->name}}
-                    @endif
+                    {{ $message->user->name }}
+                    {{ $message->isAdmin() }}
                 </strong>
-                <span>{{$message->created_at->diffForHumans()}}</span>
+                <span>{{ $message->created_at->diffForHumans() }}</span>
                 <br><br>
                 {!! GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($message->message) !!}
             </div>
             <br>
     @endforeach
-    <a href="{{route('laralum_public::tickets.reply', ['ticket' => $ticket->id])}}">@lang('laralum_tickets::tickets.send_a_reply')</a>
+    <form method="POST" action="{{ route('laralum_public::tickets.reply', ['ticket' => $ticket->id]) }}">
+        {!! csrf_field() !!}
+
+        <label for="message">@lang('laralum_tickets::general.message')</label><br />
+        <textarea class="form-control" id="message" name="message" rows="3">{{ old('message') }}</textarea>
+        <i>Markdown syntax supported</i>
+        <br>
+        <button type="submit">@lang('laralum_tickets::general.reply')</button>
+    </form>
 @endsection

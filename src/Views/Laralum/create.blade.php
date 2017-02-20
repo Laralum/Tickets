@@ -1,11 +1,11 @@
 @extends('laralum::layouts.master')
-@section('icon', 'ion-plus-circled')
+@section('icon', 'ion-plus-round')
 @section('title', trans('laralum_tickets::general.create_ticket'))
 @section('subtitle', trans('laralum_tickets::general.tickets_create_desc'))
 @section('breadcrumb')
     <ul class="uk-breadcrumb">
         <li><a href="{{ route('laralum::index') }}">@lang('laralum_tickets::general.home')</a></li>
-        <li><a href="{{ route('laralum::tickets.index') }}">@lang('laralum_tickets::general.ticket_lists')</a></li>
+        <li><a href="{{ route('laralum::tickets.index') }}">@lang('laralum_tickets::general.ticket_list')</a></li>
         <li><span>@lang('laralum_tickets::general.create_ticket')</span></li>
     </ul>
 @endsection
@@ -42,7 +42,6 @@
                                 </div>
 
                                 <div class="uk-margin">
-                                <a href="{{route('laralum::tickets.index')}}" class="uk-align-left uk-button uk-button-default">@lang('laralum::general.cancel')</a>
                                     <button type="submit" class="uk-button uk-button-primary uk-align-right">
                                         <span class="ion-forward"></span>&nbsp; @lang('laralum::general.create')
                                     </button>

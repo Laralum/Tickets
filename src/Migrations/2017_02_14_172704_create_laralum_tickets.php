@@ -16,7 +16,7 @@ class CreateLaralumTickets extends Migration
         Schema::create('laralum_tickets', function(Blueprint $table) {
 			$table->increments('id');
             $table->string('subject');
-            $table->boolean('opened');
+            $table->boolean('open');
 			$table->integer('user_id');
 			$table->integer('admin_id')->nullable();
 			$table->timestamps();

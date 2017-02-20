@@ -19,10 +19,26 @@ class Ticket extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'opened', 'admin_id', 'subject'];
+    protected $fillable = ['user_id', 'open', 'admin_id', 'subject'];
 
     /**
-     * Get the message for the ticket.
+     * Get ticket user.
+     */
+    public function user()
+    {
+        return $this->belongsTo('Laralum\Users\Models\User', 'user_id');
+    }
+
+    /**
+     * Get ticket administrator.
+     */
+    public function admin()
+    {
+        return $this->belongsTo('Laralum\Users\Models\User', 'admin_id');
+    }
+
+    /**
+     * Get the messages for the ticket.
      */
     public function messages()
     {

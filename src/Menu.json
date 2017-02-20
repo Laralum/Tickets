@@ -1,7 +1,7 @@
 {
     "items": [
         {
-            "text": "View tickets",
+            "text": "Ticket List",
             "route": "laralum::tickets.index"
         },
         {

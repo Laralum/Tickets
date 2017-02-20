@@ -23,6 +23,14 @@ class Message extends Model
     protected $fillable = ['ticket_id', 'user_id', 'message'];
 
     /**
+     * Get the ticket owner owns the message.
+     */
+    public function user()
+    {
+        return $this->belongsTo('Laralum\Users\Models\User');
+    }
+
+    /**
      * Get the ticket that owns the message.
      */
     public function ticket()
@@ -35,43 +43,15 @@ class Message extends Model
      **/
     public function isAdmin()
     {
-        return !($this->user_id == $this->ticket->user_id);
+        return !($this->user->id == $this->ticket->user->id);
     }
-
 
     /**
      * Return true if message is send from user
      **/
     public function isCurrentUser()
     {
-        return ($this->user_id == Auth::id());
-    }
-
-    /**
-     * Get the color for the title of this message
-     **/
-    public function titleColor()
-    {
-        if ($this->isAdmin()) {
-            return '#F44336';
-        }
-
-        return '#009688';
-    }
-
-    /**
-     * Get the color for this message
-     **/
-    public function color()
-    {
-        if ($this->isAdmin()) {
-            if ($this->isCurrentUser()) {
-                return '#EF9A9A';
-            }
-            return '#FFCDD2';
-        }
-
-        return '#B2DFDB';
+        return $this->user->id == Auth::id();
     }
 
 

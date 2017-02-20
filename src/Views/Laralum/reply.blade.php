@@ -1,27 +1,45 @@
 @extends('laralum::layouts.master')
-@section('icon', 'mdi-tag-plus')
-@section('title', trans('laralum_tickets::tickets.reply_ticket'))
-@section('subtitle', trans('laralum_tickets::tickets.tickets_reply_desc'))
+@section('icon', 'ion-reply')
+@section('title', trans('laralum_tickets::general.reply_ticket'))
+@section('subtitle', trans('laralum_tickets::general.tickets_reply_desc'))
+@section('breadcrumb')
+    <ul class="uk-breadcrumb">
+        <li><a href="{{ route('laralum::index') }}">@lang('laralum_tickets::general.home')</a></li>
+        <li><a href="{{ route('laralum::tickets.index') }}">@lang('laralum_tickets::general.ticket_lists')</a></li>
+        <li><a href="{{ route('laralum::tickets.show',['ticket' => $ticket->id]) }}">@lang('laralum_tickets::general.show_ticket',['id' => $ticket->id])</a></li>
+        <li><span href="">@lang('laralum_tickets::general.reply')</span></li>
+    </ul>
+@endsection
 @section('content')
-    <div class="row">
-        <div class="col-md-12 col-lg-8 offset-lg-2">
-            <div class="card shadow">
-                <div class="card-header">
-                    @lang('laralum_tickets::tickets.reply_ticket')
-                </div>
-                <div class="card-block">
-                    <form method="POST" enctype="multipart/form-data">
-                        {!! csrf_field() !!}
-                        <div class="form-group">
-                          <label for="message">@lang('laralum_tickets::tickets.message')</label>
-                          <textarea class="form-control" id="message" name="message" rows="3">{{ old('message') }}</textarea>
-                          <i>Markdown syntax supported</i>
-                        </div>
-                        <a href="{{route('laralum::tickets.show',['ticket' => $ticket->id])}}" class="btn btn-warning float-left">@lang('laralum::general.cancel')</a>
-                        <button type="submit" class="btn btn-success float-right clickable">@lang('laralum::general.create')</button>
-                    </form>
+    <div class="uk-container uk-container-large">
+        <div uk-grid>
+            <div class="uk-width-1-1@s uk-width-1-5@l uk-width-1-3@xl"></div>
+            <div class="uk-width-1-1@s uk-width-3-5@l uk-width-1-3@xl">
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-header">
+                        @lang('laralum_tickets::general.reply_ticket')
+                    </div>
+                    <div class="uk-card-body">
+                        <form method="POST">
+                            {{ csrf_field() }}
+                            <fieldset class="uk-fieldset">
+                                <div class="uk-margin">
+                                    <label class="uk-form-label">@lang('laralum_tickets::general.message')</label>
+                                    <textarea name="message" class="uk-textarea" rows="5" placeholder="@lang('laralum_tickets::general.message')">{{ old('message') }}</textarea>
+                                    <i>@lang('laralum_tickets::general.mkdown_supported')</i>
+                                </div>
+                                <div class="uk-margin">
+                                <a href="{{route('laralum::tickets.index')}}" class="uk-align-left uk-button uk-button-default">@lang('laralum::general.cancel')</a>
+                                    <button type="submit" class="uk-button uk-button-primary uk-align-right">
+                                        <span class="ion-forward"></span>&nbsp; @lang('laralum_tickets::general.reply')
+                                    </button>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
             </div>
+            <div class="uk-width-1-1@s uk-width-1-5@l uk-width-1-3@xl"></div>
         </div>
     </div>
 @endsection

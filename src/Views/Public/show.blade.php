@@ -1,5 +1,5 @@
 @extends('laralum::layouts.public')
-@section('title', trans('laralum_tickets::general.ticket_id', ['id' => $ticket->id]))
+@section('title', __('laralum_tickets::general.ticket_id', ['id' => $ticket->id]))
 @section('content')
     <h2>{{ $ticket->subject }}</h2>
     @foreach ($ticket->messages as $message)

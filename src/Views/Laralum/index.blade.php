@@ -42,7 +42,7 @@
                                         <tr>
                                             <td>{{ $ticket->id }}</td>
                                             <td>
-                                                <a href="{{route('laralum::tickets.show',['ticket' => $ticket->id])}}" title="{{trans('laralum_tickets::general.show_ticket',['id' => '#'.$ticket->id])}}" uk-tooltip="pos: top">
+                                                <a href="{{ route('laralum::tickets.show',['ticket' => $ticket->id]) }}" title="@lang('laralum_tickets::general.show_ticket',['id' => '#'.$ticket->id])" uk-tooltip="pos: top">
                                                     {{ $ticket->subject }}
                                                 </a>
                                             </td>
@@ -88,7 +88,7 @@
                                         <tr>
                                             <td>{{ $ticket->id }}</td>
                                             <td>
-                                                <a href="{{route('laralum::tickets.show',['ticket' => $ticket->id])}}" title="{{trans('laralum_tickets::general.show_ticket',['id' => '#'.$ticket->id])}}" uk-tooltip="pos: top-left">
+                                                <a href="{{ route('laralum::tickets.show',['ticket' => $ticket->id]) }}" title="@lang('laralum_tickets::general.show_ticket',['id' => '#'.$ticket->id])" uk-tooltip="pos: top-left">
                                                     {{ $ticket->subject }}
                                                 </a>
                                             </td>

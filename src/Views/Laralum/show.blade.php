@@ -31,11 +31,11 @@
                                 <h4>@lang('laralum_tickets::general.creation_date')</h4>
                                 <span>{{ $ticket->created_at->diffForHumans() }}</span>
                             </div>
-                            <div class="uk-width-1-2">
+                            <div class="uk-width-1-2 uk-text-truncate">
                                 <h4>@lang('laralum_tickets::general.user_name')</h4>
                                 <span>{{ $ticket->user->name }}</span>
                             </div>
-                            <div class="uk-width-1-2">
+                            <div class="uk-width-1-2 uk-text-truncate">
                                 <h4>@lang('laralum_tickets::general.user_email')</h4>
                                 <span>{{ $ticket->user->email }}</span>
                             </div>

@@ -75,7 +75,7 @@ class PublicTicketController extends Controller
             'open' => false
         ]);
 
-        return redirect()->back()->with('success', __('laralum_tickets::general.closed', ['id' => '#'.$ticket]));
+        return redirect()->back()->with('success', __('laralum_tickets::general.closed', ['id' => $ticket]));
     }
 
     /**
@@ -90,7 +90,7 @@ class PublicTicketController extends Controller
             'open' => true
         ]);
 
-        return redirect()->back()->with('success', __('laralum_tickets::general.reopened', ['id' => '#'.$ticket]));
+        return redirect()->back()->with('success', __('laralum_tickets::general.reopened', ['id' => $ticket]));
 
     }
 

@@ -1,7 +1,7 @@
 @extends('laralum::layouts.master')
 @section('icon', 'ion-plus-round')
-@section('title', trans('laralum_tickets::general.create_ticket'))
-@section('subtitle', trans('laralum_tickets::general.tickets_create_desc'))
+@section('title', __('laralum_tickets::general.create_ticket'))
+@section('subtitle', __('laralum_tickets::general.tickets_create_desc'))
 @section('breadcrumb')
     <ul class="uk-breadcrumb">
         <li><a href="{{ route('laralum::index') }}">@lang('laralum_tickets::general.home')</a></li>

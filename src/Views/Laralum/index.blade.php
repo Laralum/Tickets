@@ -80,7 +80,7 @@
                                         <th>@lang('laralum_tickets::general.subject')</th>
                                         <th>@lang('laralum::general.user')</th>
                                         <th>@lang('laralum_tickets::general.messages')</th>
-                                        <th>@lang('laralum::general.actions')</th>
+                                        <th>@lang('laralum_tickets::general.actions')</th>
                                     </tr>
                                 </thead>
                                 <tbody>

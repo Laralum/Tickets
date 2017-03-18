@@ -6,7 +6,7 @@ use Laralum\Users\Models\User;
 use Illuminate\Http\Request;
 use Laralum\Tickets\Models\Ticket;
 use Laralum\Tickets\Models\Message;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class PublicTicketController extends Controller
 {

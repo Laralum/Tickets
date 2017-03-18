@@ -50,11 +50,21 @@
                                             <td>{{ $ticket->messages()->count() }}</td>
                                             <td class="uk-table-shrink">
                                                 <div class="uk-button-group">
-                                                    <a href="{{ route('laralum::tickets.show', ['ticket' => $ticket->id]) }}" class="uk-button uk-button-small uk-button-default">@lang('laralum_tickets::general.view')</a>
-                                                    <form action="{{ route('laralum::tickets.close', ['ticket' => $ticket->id]) }}"  method="post">
-                                                        {{ csrf_field() }}
-                                                        <button type="submit" class="uk-button uk-button-small uk-button-primary">Close</button>
-                                                    </form>
+                                                    @can('view', $ticket)
+                                                        <a href="{{ route('laralum::tickets.show', ['ticket' => $ticket->id]) }}" class="uk-button uk-button-small uk-button-default">@lang('laralum_tickets::general.view')</a>
+                                                    @endcan
+                                                    @can('edit', $ticket)
+                                                        <a href="{{ route('laralum::tickets.edit', ['ticket' => $ticket->id]) }}" class="uk-button uk-button-small uk-button-default">@lang('laralum_tickets::general.edit')</a>
+                                                    @endcan
+                                                    @can('delete', $ticket)
+                                                        <a href="{{ route('laralum::tickets.destroy.confirm', ['ticket' => $ticket->id]) }}" class="uk-button uk-button-small uk-button-danger">@lang('laralum_tickets::general.delete')</a>
+                                                    @endcan
+                                                    @can('close', $ticket)
+                                                        <form action="{{ route('laralum::tickets.close', ['ticket' => $ticket->id]) }}"  method="post">
+                                                            {{ csrf_field() }}
+                                                            <button type="submit" class="uk-button uk-button-small uk-button-primary">Close</button>
+                                                        </form>
+                                                    @endcan
                                                 </div>
                                             </td>
                                         </tr>
@@ -96,11 +106,21 @@
                                             <td>{{ $ticket->messages()->count() }}</td>
                                             <td class="uk-table-shrink">
                                                 <div class="uk-button-group">
-                                                    <a href="{{ route('laralum::tickets.show', ['ticket' => $ticket->id]) }}" class="uk-button uk-button-small uk-button-default">@lang('laralum_tickets::general.view')</a>
-                                                    <form action="{{ route('laralum::tickets.open', ['ticket' => $ticket->id]) }}"  method="post">
-                                                        {{ csrf_field() }}
-                                                        <button type="submit" class="uk-button uk-button-small uk-button-primary">@lang('laralum_tickets::general.open')</button>
-                                                    </form>
+                                                    @can('view', $ticket)
+                                                        <a href="{{ route('laralum::tickets.show', ['ticket' => $ticket->id]) }}" class="uk-button uk-button-small uk-button-default">@lang('laralum_tickets::general.view')</a>
+                                                    @endcan
+                                                    @can('edit', $ticket)
+                                                        <a href="{{ route('laralum::tickets.edit', ['ticket' => $ticket->id]) }}" class="uk-button uk-button-small uk-button-default">@lang('laralum_tickets::general.edit')</a>
+                                                    @endcan
+                                                    @can('delete', $ticket)
+                                                        <a href="{{ route('laralum::tickets.destroy.confirm', ['ticket' => $ticket->id]) }}" class="uk-button uk-button-small uk-button-danger">@lang('laralum_tickets::general.delete')</a>
+                                                    @endcan
+                                                    @can('open', $ticket)
+                                                        <form action="{{ route('laralum::tickets.open', ['ticket' => $ticket->id]) }}"  method="post">
+                                                            {{ csrf_field() }}
+                                                            <button type="submit" class="uk-button uk-button-small uk-button-primary">@lang('laralum_tickets::general.open')</button>
+                                                        </form>
+                                                    @endcan
                                                 </div>
                                             </td>
                                         </tr>

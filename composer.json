@@ -3,7 +3,8 @@
     "description": "Tickets module for laralum",
     "require": {
 		"laralum/laralum": "dev-master",
-        "graham-campbell/markdown": "^7.0"
+        "graham-campbell/markdown": "7.*",
+        "league/html-to-markdown": "4.*"
 	},
     "license": "MIT",
     "authors": [

@@ -1,4 +1,19 @@
 @extends('laralum::layouts.master')
+@php
+    $settings = \Laralum\Tickets\Models\Settings::first();
+@endphp
+@section('css')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.5/tinymce.min.js"></script>
+    @if ($settings->text_editor == 'wysiwyg')
+        <script>
+            tinymce.init({ selector:'textarea',   plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table contextmenu paste code'
+            ] });
+        </script>
+    @endif
+@endsection
 @section('icon', 'ion-pricetag')
 @section('title', $ticket->subject)
 @section('subtitle', __('laralum_tickets::general.ticket_subtitle', ['id' => $ticket->id, 'created' => $ticket->created_at->diffForHumans()]))
@@ -67,7 +82,7 @@
                                     </div>
                                     <div class="uk-width-expand">
                                         <h4 class="uk-comment-title uk-margin-remove">
-                                            {{ $message->user->name}}
+                                            {{ $message->user->name }}
                                             @if($message->isAdmin())
                                                 <span class="uk-label">@lang('laralum_tickets::general.customer_support')</span>
                                             @endif
@@ -78,8 +93,19 @@
                                     </div>
                                 </header>
                                 <div class="uk-comment-body">
-                                    {!! GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($message->message) !!}
+                                    {!! $message->message !!}
                                 </div>
+                                @if ( \Illuminate\Support\Facades\Auth::user()->can('update', $message) || \Illuminate\Support\Facades\Auth::user()->can('delete', $message))
+                                    <br>
+                                    <div>
+                                        @can ('update', $message)
+                                            <a class="uk-button uk-button-text" href="{{ route('laralum::tickets.messages.edit', ['message' => $message->id]) }}">@lang('laralum_tickets::general.edit')</a>&emsp;
+                                        @endcan
+                                        @can ('delete', $message)
+                                            <a class="uk-button uk-button-text" href="{{ route('laralum::tickets.messages.destroy.confirm', ['message' => $message->id]) }}">@lang('laralum_tickets::general.delete')</a>
+                                        @endcan
+                                    </div>
+                                @endif
                             </article>
                             @if( !$loop->last )
                                 <hr />
@@ -90,8 +116,18 @@
                             {{ csrf_field() }}
                             <fieldset class="uk-fieldset">
                                 <div class="uk-margin">
-                                    <textarea name="message" class="uk-textarea" rows="5" placeholder="@lang('laralum_tickets::general.message')">{{ old('message') }}</textarea>
-                                    <i>@lang('laralum_tickets::general.mkdown_supported')</i>
+                                    @if ($settings->text_editor == 'wysiwyg')
+                                        <textarea name="message">
+                                            {{ old('message') }}
+                                        </textarea>
+                                    @else
+                                        <textarea name="message" class="uk-textarea" rows="5" placeholder="{{ __('laralum_tickets::general.message') }}">{{ old('message') }}</textarea>
+                                        @if ($settings->text_editor == 'markdown')
+                                            <i>@lang('laralum_tickets::general.markdown')</i>
+                                        @else
+                                            <i>@lang('laralum_tickets::general.plain_text')</i>
+                                        @endif
+                                    @endif
                                 </div>
                                 <div class="uk-margin">
                                     <button type="submit" class="uk-button uk-button-primary">

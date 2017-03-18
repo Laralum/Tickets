@@ -3,6 +3,7 @@
 namespace Laralum\Tickets\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laralum\Tickets\Models\Message;
 
 class Ticket extends Model
 {
@@ -44,5 +45,15 @@ class Ticket extends Model
     {
         return $this->hasMany('Laralum\Tickets\Models\Message');
     }
+
+    /**
+     * Delete ticket messages.
+     */
+    public function deleteMessages()
+    {
+        $this->hasMany('Laralum\Tickets\Models\Message')->delete();
+        return true;
+    }
+
 
 }

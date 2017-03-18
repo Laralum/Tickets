@@ -19,7 +19,6 @@
 
         <label for="message">@lang('laralum_tickets::general.message')</label><br />
         <textarea class="form-control" id="message" name="message" rows="3">{{ old('message') }}</textarea>
-        <i>Markdown syntax supported</i>
         <br>
         <button type="submit">@lang('laralum_tickets::general.reply')</button>
     </form>

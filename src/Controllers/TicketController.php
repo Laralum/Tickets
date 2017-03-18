@@ -173,7 +173,7 @@ class TicketController extends Controller
      */
     public function open(Ticket $ticket)
     {
-        $this->authorize('open', Ticket::class);
+        $this->authorize('open', $ticket);
         $ticket->update([
             'open' => true
         ]);
@@ -189,7 +189,7 @@ class TicketController extends Controller
      */
     public function close(Ticket $ticket)
     {
-        $this->authorize('close', Ticket::class);
+        $this->authorize('close', $ticket);
         $ticket->update([
             'open' => false
         ]);
@@ -204,7 +204,7 @@ class TicketController extends Controller
      */
     public function confirmDestroy(Ticket $ticket)
     {
-        $this->authorize('close', Ticket::class);
+        $this->authorize('delete', $ticket);
         return view('laralum::pages.confirmation', [
             'method' => 'DELETE',
             'message' => __('laralum_tickets::general.sure_del_ticket', ['id' => $ticket->id]),
@@ -275,7 +275,7 @@ class TicketController extends Controller
      */
     public function reply(Request $request, Ticket $ticket)
     {
-        $this->authorize('reply', Ticket::class);
+        $this->authorize('reply', $ticket);
         $this->validate($request, [
             'message' => 'required|max:2500'
         ]);

@@ -9,11 +9,15 @@ Route::group([
         'namespace' => 'Laralum\Tickets\Controllers',
         'as' => 'laralum_public::'
     ], function () {
-        $settings = \Laralum\Tickets\Models\Settings::first();
-        Route::post($settings->public_url.'/close/{ticket}', 'PublicTicketController@close')->name('tickets.close');
-        Route::post($settings->public_url.'/open/{ticket}', 'PublicTicketController@open')->name('tickets.open');
-        Route::post($settings->public_url.'/reply/{ticket}', 'PublicTicketController@reply')->name('tickets.reply');
-        Route::resource($settings->public_url, 'PublicTicketController', ['names' => [
+        if (\Illuminate\Support\Facades\Schema::hasTable('laralum_tickets_settings')) {
+            $public_url = \Laralum\Tickets\Models\Settings::first()->public_url;
+        } else {
+            $public_url = 'tickets';
+        }
+        Route::post($public_url.'/close/{ticket}', 'PublicTicketController@close')->name('tickets.close');
+        Route::post($public_url.'/open/{ticket}', 'PublicTicketController@open')->name('tickets.open');
+        Route::post($public_url.'/reply/{ticket}', 'PublicTicketController@reply')->name('tickets.reply');
+        Route::resource($public_url, 'PublicTicketController', ['names' => [
             'index' => 'tickets.index',
             'create' => 'tickets.create',
             'store' => 'tickets.store',

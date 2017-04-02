@@ -103,6 +103,11 @@ class TicketsServiceProvider extends ServiceProvider
             'slug' => 'laralum::tickets.messages.update-public',
             'desc' => "Allows updating tickets messages (public)",
         ],
+        [
+            'name' => 'Update Tickets Settings',
+            'slug' => 'laralum::tickets.settings',
+            'desc' => "Allows update tickets settings",
+        ],
     ];
 
     /**

@@ -126,7 +126,7 @@ class TicketsServiceProvider extends ServiceProvider
         }
 
         $this->publishes([
-            __DIR__.'/Views/Public' => resource_path('views/vendor/Laralum/Tickets'),
+            __DIR__.'/Views/public' => resource_path('views/vendor/Laralum/Tickets'),
         ], 'laralum_tickets');
 
         $this->app->register('GrahamCampbell\\Markdown\\MarkdownServiceProvider');

@@ -54,19 +54,21 @@
                                 <h4>@lang('laralum_tickets::general.user_email')</h4>
                                 <span>{{ $ticket->user->email }}</span>
                             </div>
-                            <div class="uk-width-1-1">
-                                @if($ticket->open)
-                                    <form action="{{ route('laralum::tickets.close', ['ticket' => $ticket->id]) }}"  method="post">
-                                        {{ csrf_field() }}
-                                        <button type="submit" class="uk-button uk-button-danger uk-width-1-1 uk-margin-small-bottom">@lang('laralum_tickets::general.close_ticket', ['id' => $ticket->id])</button>
-                                    </form>
-                                @else
-                                    <form action="{{ route('laralum::tickets.open', ['ticket' => $ticket->id]) }}"  method="post">
-                                        {{ csrf_field() }}
-                                        <button type="submit" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">@lang('laralum_tickets::general.reopen_ticket', ['id' => $ticket->id])</button>
-                                    </form>
-                                @endif
-                            </div>
+                            @can('status', $ticket)
+                                <div class="uk-width-1-1">
+                                    @if($ticket->open)
+                                        <form action="{{ route('laralum::tickets.close', ['ticket' => $ticket->id]) }}"  method="post">
+                                            {{ csrf_field() }}
+                                            <button type="submit" class="uk-button uk-button-danger uk-width-1-1 uk-margin-small-bottom">@lang('laralum_tickets::general.close_ticket', ['id' => $ticket->id])</button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('laralum::tickets.open', ['ticket' => $ticket->id]) }}"  method="post">
+                                            {{ csrf_field() }}
+                                            <button type="submit" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">@lang('laralum_tickets::general.reopen_ticket', ['id' => $ticket->id])</button>
+                                        </form>
+                                    @endif
+                                </div>
+                            @endcan
                         </div>
                     </div>
                 </div>
@@ -111,31 +113,33 @@
                                 <hr />
                             @endif
                         @endforeach
-                        <h4>@lang('laralum_tickets::general.send_a_reply')</h4>
-                        <form action="{{ route('laralum::tickets.reply', ['ticket' => $ticket->id]) }}" method="POST">
-                            {{ csrf_field() }}
-                            <fieldset class="uk-fieldset">
-                                <div class="uk-margin">
-                                    @if ($settings->text_editor == 'wysiwyg')
-                                        <textarea name="message">
-                                            {{ old('message') }}
-                                        </textarea>
-                                    @else
-                                        <textarea name="message" class="uk-textarea" rows="5" placeholder="{{ __('laralum_tickets::general.message') }}">{{ old('message') }}</textarea>
-                                        @if ($settings->text_editor == 'markdown')
-                                            <i>@lang('laralum_tickets::general.markdown')</i>
+                        @can('reply', $ticket)
+                            <h4>@lang('laralum_tickets::general.send_a_reply')</h4>
+                            <form action="{{ route('laralum::tickets.messages.store', ['ticket' => $ticket->id]) }}" method="POST">
+                                {{ csrf_field() }}
+                                <fieldset class="uk-fieldset">
+                                    <div class="uk-margin">
+                                        @if ($settings->text_editor == 'wysiwyg')
+                                            <textarea name="message">
+                                                {{ old('message') }}
+                                            </textarea>
                                         @else
-                                            <i>@lang('laralum_tickets::general.plain_text')</i>
+                                            <textarea name="message" class="uk-textarea" rows="5" placeholder="{{ __('laralum_tickets::general.message') }}">{{ old('message') }}</textarea>
+                                            @if ($settings->text_editor == 'markdown')
+                                                <i>@lang('laralum_tickets::general.markdown')</i>
+                                            @else
+                                                <i>@lang('laralum_tickets::general.plain_text')</i>
+                                            @endif
                                         @endif
-                                    @endif
-                                </div>
-                                <div class="uk-margin">
-                                    <button type="submit" class="uk-button uk-button-primary">
-                                        <span class="ion-forward"></span>&nbsp; @lang('laralum_tickets::general.reply')
-                                    </button>
-                                </div>
-                            </fieldset>
-                        </form>
+                                    </div>
+                                    <div class="uk-margin">
+                                        <button type="submit" class="uk-button uk-button-primary">
+                                            <span class="ion-forward"></span>&nbsp; @lang('laralum_tickets::general.reply')
+                                        </button>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        @endcan
                     </div>
                 </div>
             </div>

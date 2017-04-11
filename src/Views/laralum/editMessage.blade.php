@@ -34,20 +34,26 @@
                         @lang('laralum_tickets::general.edit_message', ['id' => $message->id])
                     </div>
                     <div class="uk-card-body">
-                        <form method="POST" action="{{ route('laralum::tickets.messages.update',['message' => $message->id]) }}">
+                        <form method="POST" action="{{ route('laralum::tickets.messages.update', ['message' => $message->id]) }}">
                             {{ csrf_field() }}
+                            {{ method_field('PATCH') }}
                             <fieldset class="uk-fieldset">
                                 <div class="uk-margin">
                                     @if ($settings->text_editor == 'wysiwyg')
-                                        <textarea name="message">
-                                            {{ old('message', $message->message) }}
-                                        </textarea>
+                                        <textarea name="message" rows="15">{{ old('message', $message->message) }}</textarea>
                                     @else
-                                        <textarea name="message" class="uk-textarea" rows="5" placeholder="{{ __('laralum_tickets::general.message') }}">{{ old('message') }}</textarea>
+                                        @php
+                                        $text = old('message', $message->message);
+                                        if ($settings->text_editor == 'markdown') {
+                                            $converter = new League\HTMLToMarkdown\HtmlConverter();
+                                            $text = $converter->convert($text);
+                                        }
+                                        @endphp
+                                        <textarea name="message" class="uk-textarea" rows="15" placeholder="{{ __('laralum_tickets::general.message') }}">{{ $text }}</textarea>
                                         @if ($settings->text_editor == 'markdown')
-                                            <i>@lang('laralum_tickets::general.markdown')</i>
+                                            <i>@lang('laralum_forum::general.markdown')</i>
                                         @else
-                                            <i>@lang('laralum_tickets::general.plain_text')</i>
+                                            <i>@lang('laralum_forum::general.plain_text')</i>
                                         @endif
                                     @endif
                                 </div>

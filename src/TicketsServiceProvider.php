@@ -45,12 +45,12 @@ class TicketsServiceProvider extends ServiceProvider
         ],
         [
             'name' => 'Create Tickets',
-            'slug' => 'laralum::blog.categories.create',
+            'slug' => 'laralum::tickets.create',
             'desc' => "Allows creating tickets",
         ],
         [
             'name' => 'Create Tickets (public)',
-            'slug' => 'laralum::blog.categories.create-public',
+            'slug' => 'laralum::tickets.create-public',
             'desc' => "Allows creating tickets (public)",
         ],
         [
@@ -84,24 +84,44 @@ class TicketsServiceProvider extends ServiceProvider
             'desc' => "Allows delete tickets (public)",
         ],
         [
-            'name' => 'Create Tickets Replies',
-            'slug' => 'laralum::tickets.messages.create',
-            'desc' => "Allows updating tickets messages",
+            'name' => 'Manage Tickets Status',
+            'slug' => 'laralum::tickets.status',
+            'desc' => "Allows close and open tickets",
         ],
         [
-            'name' => 'Create Tickets Replies (public)',
-            'slug' => 'laralum::tickets.messages.create-public',
-            'desc' => "Allows updating tickets messages (public)",
+            'name' => 'Manage Tickets Status (public)',
+            'slug' => 'laralum::tickets.status-public',
+            'desc' => "Allows close and open tickets (public)",
         ],
         [
-            'name' => 'Update Tickets Replies',
+            'name' => 'Reply Tickets Messages',
+            'slug' => 'laralum::tickets.reply',
+            'desc' => "Allows Reply tickets messages",
+        ],
+        [
+            'name' => 'Reply Tickets Messages (public)',
+            'slug' => 'laralum::tickets.reply-public',
+            'desc' => "Allows reply tickets messages (public)",
+        ],
+        [
+            'name' => 'Update Tickets Messages',
             'slug' => 'laralum::tickets.messages.update',
             'desc' => "Allows updating tickets messages",
         ],
         [
-            'name' => 'Update Tickets Replies (public)',
+            'name' => 'Update Tickets Messages (public)',
             'slug' => 'laralum::tickets.messages.update-public',
             'desc' => "Allows updating tickets messages (public)",
+        ],
+        [
+            'name' => 'Delete Tickets Messages',
+            'slug' => 'laralum::tickets.messages.delete',
+            'desc' => "Allows deleting tickets messages",
+        ],
+        [
+            'name' => 'Delete Tickets Messages (public)',
+            'slug' => 'laralum::tickets.messages.delete-public',
+            'desc' => "Allows delete tickets messages (public)",
         ],
         [
             'name' => 'Update Tickets Settings',

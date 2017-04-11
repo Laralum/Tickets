@@ -59,7 +59,7 @@
                                                     @can('delete', $ticket)
                                                         <a href="{{ route('laralum::tickets.destroy.confirm', ['ticket' => $ticket->id]) }}" class="uk-button uk-button-small uk-button-danger">@lang('laralum_tickets::general.delete')</a>
                                                     @endcan
-                                                    @can('close', $ticket)
+                                                    @can('status', $ticket)
                                                         <form action="{{ route('laralum::tickets.close', ['ticket' => $ticket->id]) }}"  method="post">
                                                             {{ csrf_field() }}
                                                             <button type="submit" class="uk-button uk-button-small uk-button-primary">Close</button>

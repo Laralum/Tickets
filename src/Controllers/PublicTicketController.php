@@ -4,32 +4,38 @@ namespace Laralum\Tickets\Controllers;
 use App\Http\Controllers\Controller;
 use Laralum\Users\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Laralum\Tickets\Models\Ticket;
 use Laralum\Tickets\Models\Message;
-use Illuminate\Support\Facades\Auth;
+use Laralum\Tickets\Models\Settings;
+use GrahamCampbell\Markdown\Facades\Markdown;
+use League\HTMLToMarkdown\HtmlConverter;
 
 class PublicTicketController extends Controller
 {
+
     /**
-     * Display all the tickets of this user.
+     * Display the tickets in laralum administration.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $openedTickets = Ticket::where(['user_id' => Auth::id(), 'open' => true])->orderBy('updated_at','desc')->get();
-        $closedTickets = Ticket::where(['user_id' => Auth::id(), 'open' => false])->orderBy('updated_at','desc')->get();
+        $openedTickets = Ticket::where('user_id', '=', Auth::id())->where('open', true)->orderBy('updated_at','desc')->get();
+        $closedTickets = Ticket::where('user_id', '=', Auth::id())->where('open', false)->orderBy('updated_at','desc')->get();
 
         return view('laralum_tickets::public.index', ['openedTickets' => $openedTickets, 'closedTickets' => $closedTickets]);
     }
 
+
     /**
-     * Display a form to create tickets of this user.
+     * Display a form to create tickets on laralum administration.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
+        $this->authorize('publicCreate', Ticket::class);
         return view('laralum_tickets::public.create');
     }
 
@@ -41,41 +47,83 @@ class PublicTicketController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('publicCreate', Ticket::class);
         $this->validate($request, [
-            'subject' => 'required|min:6|max:255',
-            'message' => 'required|min:10|max:2500'
+            'subject' => 'required|max:255',
+            'message' => 'required|max:2500',
         ]);
-
 
         $ticket = Ticket::create([
             'subject' => $request->subject,
             'user_id' => Auth::id(),
             'open' => true,
+            'admin_id' => NULL
         ]);
 
+        if (Settings::first()->text_editor == "markdown") {
+            $msg = Markdown::convertToHtml($request->message);
+        } elseif (Settings::first()->text_editor == "wysiwyg") {
+            $msg = $request->message;
+        } else {
+            $msg = htmlentities($request->message);
+        }
+
         Message::create([
-            'message' => $request->message,
+            'message' => $msg,
             'ticket_id' => $ticket->id,
             'user_id' => Auth::id()
         ]);
 
-        return redirect()->route('laralum_public::tickets.show', ['ticket' => $ticket->id])->with('success', __('laralum_tickets::general.created'));
-
+        return redirect()->route('laralum_public::tickets.show', ['ticket' => $ticket->id])
+            ->with('success', __('laralum_tickets::general.created'));
     }
 
     /**
-     * Close ticket.
+     * Show ticket.
      *
      * @param  \Laralum\Tickets\Models\Ticket $ticket
      * @return \Illuminate\Http\Response
      */
-    public function close(Ticket $ticket)
+    public function show(Ticket $ticket)
     {
-        $ticket->update([
-            'open' => false
+        $this->authorize('publicView', $ticket);
+        return view('laralum_tickets::public.show', ['ticket' => $ticket]);
+    }
+
+    /**
+     * Display a form to edit tickets on laralum administration.
+     *
+     * @param  \Illuminate\Http\Ticket $ticket
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Ticket $ticket)
+    {
+        $this->authorize('publicUpdate', $ticket);
+
+        return view('laralum_tickets::public.edit', ['ticket' => $ticket]);
+    }
+
+    /**
+     * Update tickets on laralum administration.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laralum\Tickets\Models\Ticket  $ticket
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Ticket $ticket)
+    {
+        $this->authorize('publicUpdate', $ticket);
+
+        $this->validate($request, [
+            'subject' => 'required|max:255',
         ]);
 
-        return redirect()->back()->with('success', __('laralum_tickets::general.closed', ['id' => $ticket]));
+        $ticket->update([
+            'subject' => $request->subject,
+        ]);
+
+        return redirect()->route('laralum_public::tickets.show', ['ticket' => $ticket->id])
+            ->with('success', __('laralum_tickets::general.updated', ['id' => $ticket->id]));
     }
 
     /**
@@ -86,44 +134,56 @@ class PublicTicketController extends Controller
      */
     public function open(Ticket $ticket)
     {
+        $this->authorize('publicStatus', $ticket);
         $ticket->update([
             'open' => true
         ]);
 
-        return redirect()->back()->with('success', __('laralum_tickets::general.reopened', ['id' => $ticket]));
-
+        return redirect()->route('laralum_public::tickets.index')->with('success', __('laralum_tickets::general.reopened', ['id' => $ticket->id]));
     }
 
     /**
-     * Show ticket messages.
+     * Close ticket.
      *
      * @param  \Laralum\Tickets\Models\Ticket $ticket
      * @return \Illuminate\Http\Response
      */
-    public function show(Ticket $ticket)
+    public function close(Ticket $ticket)
     {
-        return view('laralum_tickets::public.show', ['ticket' => $ticket]);
+        $this->authorize('publicStatus', $ticket);
+        $ticket->update([
+            'open' => false
+        ]);
+        return redirect()->route('laralum_public::tickets.index')->with('success', __('laralum_tickets::general.closed', ['id' => $ticket->id]));
     }
 
     /**
-     * Saves the reply.
+     * View for cofirm delete ticket.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \Laralum\Tickets\Models\Ticket $ticket
      * @return \Illuminate\Http\Response
      */
-    public function reply(Request $request, Ticket $ticket)
+    public function confirmDestroy(Ticket $ticket)
     {
-        $this->validate($request, [
-            'message' => 'required|min:10|max:2500'
+        $this->authorize('delete', $ticket);
+        return view('laralum::pages.confirmation', [
+            'method' => 'DELETE',
+            'message' => __('laralum_tickets::general.sure_del_ticket', ['id' => $ticket->id]),
+            'action' => route('laralum::tickets.destroy', ['ticket' => $ticket->id]),
         ]);
+    }
 
-        Message::create([
-            'message' => $request->message,
-            'ticket_id' => $ticket->id,
-            'user_id' => Auth::id()
-        ]);
-
-        return redirect()->route('laralum_public::tickets.show', ['ticket' => $ticket])->with('success', __('laralum_tickets::general.reply_sent'));
+    /**
+     * Delete ticket.
+     *
+     * @param  \Laralum\Tickets\Models\Ticket $ticket
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Ticket $ticket)
+    {
+        $this->authorize('delete', $ticket);
+        $ticket->deleteMessages();
+        $ticket->delete();
+        return redirect()->route('laralum::tickets.index');
     }
 }

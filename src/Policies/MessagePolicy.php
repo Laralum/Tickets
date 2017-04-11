@@ -4,7 +4,7 @@ namespace Laralum\Tickets\Policies;
 
 use Laralum\Users\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Laralum\Ticket\Models\Message;
+use Laralum\Tickets\Models\Message;
 
 class MessagePolicy
 {
@@ -23,7 +23,6 @@ class MessagePolicy
         }
     }
 
-
     /**
      * Determine if the current user can update tickets messages.
      *
@@ -33,15 +32,29 @@ class MessagePolicy
      */
     public function update($user, Message $message)
     {
-        if ($message->user->id == $user->id) {
-            return User::findOrFail($user->id)->hasPermission('laralum::tickets.messages.update');
+        if ($message->user_id == $user->id || $message->admin_id == $user->id) {
+            return true;
         }
-        return False;
+        return User::findOrFail($user->id)->hasPermission('laralum::tickets.messages.update');
     }
 
+    /**
+     * Determine if the current user can update tickets messages.
+     *
+     * @param  mixed $user
+     * @param  Laralum\Ticket\Models\Message $message
+     * @return bool
+     */
+    public function publicUpdate($user, Message $message)
+    {
+        if ($message->user_id == $user->id || $message->admin_id == $user->id) {
+            return User::findOrFail($user->id)->hasPermission('laralum::tickets.messages.update-public');
+        }
+        return false;
+    }
 
     /**
-     * Determine if the current user can delete tickets.
+     * Determine if the current user can delete ticket messages.
      *
      * @param  mixed $user
      * @param  Laralum\Ticket\Models\Message $message
@@ -49,9 +62,24 @@ class MessagePolicy
      */
     public function delete($user, Message $message)
     {
-        if ($message->user->id == $user->id) {
-            return User::findOrFail($user->id)->hasPermission('laralum::tickets.messages.delete');
+        if ($message->user_id == $user->id || $message->admin_id == $user->id) {
+            return true;
         }
-        return False;
+        return User::findOrFail($user->id)->hasPermission('laralum::tickets.messages.delete');
+    }
+
+    /**
+     * Determine if the current user can delete ticket messages.
+     *
+     * @param  mixed $user
+     * @param  Laralum\Ticket\Models\Message $message
+     * @return bool
+     */
+    public function publicDelete($user, Message $message)
+    {
+        if ($message->user_id == $user->id || $message->admin_id == $user->id) {
+            return User::findOrFail($user->id)->hasPermission('laralum::tickets.messages.delete-public');
+        }
+        return false;
     }
 }

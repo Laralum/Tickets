@@ -1,0 +1,6 @@
+[
+    {
+        "view": "laralum_tickets::widgets.tickets",
+        "permission": "laralum::tickets.access"
+    }
+]

@@ -1,15 +1,14 @@
 <?php
 
 namespace Laralum\Tickets\Controllers;
+
 use App\Http\Controllers\Controller;
-use Laralum\Users\Models\User;
+use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Laralum\Tickets\Models\Ticket;
 use Laralum\Tickets\Models\Message;
 use Laralum\Tickets\Models\Settings;
-use GrahamCampbell\Markdown\Facades\Markdown;
-use League\HTMLToMarkdown\HtmlConverter;
+use Laralum\Tickets\Models\Ticket;
 
 class PublicMessageController extends Controller
 {
@@ -22,21 +21,21 @@ class PublicMessageController extends Controller
     {
         $this->authorize('publicReply', $ticket);
         $this->validate($request, [
-            'message' => 'required|max:2500'
+            'message' => 'required|max:2500',
         ]);
 
-        if (Settings::first()->text_editor == "markdown") {
+        if (Settings::first()->text_editor == 'markdown') {
             $msg = Markdown::convertToHtml($request->message);
-        } elseif (Settings::first()->text_editor == "wysiwyg") {
+        } elseif (Settings::first()->text_editor == 'wysiwyg') {
             $msg = $request->message;
         } else {
             $msg = htmlentities($request->message);
         }
 
         Message::create([
-            'message' => $msg,
+            'message'   => $msg,
             'ticket_id' => $ticket->id,
-            'user_id' => Auth::id()
+            'user_id'   => Auth::id(),
         ]);
 
         return redirect()->route('laralum_public::tickets.show', ['ticket' => $ticket])
@@ -46,7 +45,8 @@ class PublicMessageController extends Controller
     /**
      * Display a form to edit tickets on laralum administration.
      *
-     * @param  \Illuminate\Http\Ticket $ticket
+     * @param \Illuminate\Http\Ticket $ticket
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Message $message)
@@ -59,8 +59,9 @@ class PublicMessageController extends Controller
     /**
      * Update tickets messages on laralum administration.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Laralum\Tickets\Models\Message  $message
+     * @param \Illuminate\Http\Request        $request
+     * @param \Laralum\Tickets\Models\Message $message
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Message $message)
@@ -71,9 +72,9 @@ class PublicMessageController extends Controller
             'message' => 'required|max:2500',
         ]);
 
-        if (Settings::first()->text_editor == "markdown") {
+        if (Settings::first()->text_editor == 'markdown') {
             $msg = Markdown::convertToHtml($request->message);
-        } elseif (Settings::first()->text_editor == "wysiwyg") {
+        } elseif (Settings::first()->text_editor == 'wysiwyg') {
             $msg = $request->message;
         } else {
             $msg = htmlentities($request->message);
@@ -90,13 +91,15 @@ class PublicMessageController extends Controller
     /**
      * Delete message.
      *
-     * @param  \Laralum\Tickets\Models\Message $message
+     * @param \Laralum\Tickets\Models\Message $message
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Message $message)
     {
         $this->authorize('publicDelete', $message);
         $message->delete();
+
         return redirect()->route('laralum_public::tickets.show', ['ticket' => $message->ticket->id]);
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateLaralumTickets extends Migration
 {
@@ -13,14 +13,14 @@ class CreateLaralumTickets extends Migration
      */
     public function up()
     {
-        Schema::create('laralum_tickets', function(Blueprint $table) {
-			$table->increments('id');
+        Schema::create('laralum_tickets', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('subject');
             $table->boolean('open');
-			$table->integer('user_id');
-			$table->integer('admin_id')->nullable();
-			$table->timestamps();
-		});
+            $table->integer('user_id');
+            $table->integer('admin_id')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**

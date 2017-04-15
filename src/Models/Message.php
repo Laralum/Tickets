@@ -2,9 +2,8 @@
 
 namespace Laralum\Tickets\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Auth;
-
+use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
@@ -39,7 +38,7 @@ class Message extends Model
     }
 
     /**
-     * Return true if message is send from user
+     * Return true if message is send from user.
      **/
     public function isAdmin()
     {
@@ -47,12 +46,10 @@ class Message extends Model
     }
 
     /**
-     * Return true if message is send from user
+     * Return true if message is send from user.
      **/
     public function isCurrentUser()
     {
         return $this->user->id == Auth::id();
     }
-
-
 }

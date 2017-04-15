@@ -13,7 +13,7 @@ Route::group([
             'can:publicAccess,Laralum\Tickets\Models\Ticket',
         ],
         'namespace' => 'Laralum\Tickets\Controllers',
-        'as' => 'laralum_public::tickets.',
+        'as'        => 'laralum_public::tickets.',
     ], function () use ($public_url) {
         Route::post($public_url.'/close/{ticket}', 'PublicTicketController@close')->name('close');
         Route::post($public_url.'/open/{ticket}', 'PublicTicketController@open')->name('open');
@@ -26,24 +26,24 @@ Route::group([
         Route::delete($public_url.'/messages/{message}/delete', 'PublicMessageController@destroy')->name('messages.destroy');
 
         Route::resource($public_url, 'PublicTicketController', ['names' => [
-            'index' => 'index',
-            'create' => 'create',
-            'store' => 'store',
-            'show' => 'show',
-            'edit' => 'edit',
-            'update' => 'update',
+            'index'   => 'index',
+            'create'  => 'create',
+            'store'   => 'store',
+            'show'    => 'show',
+            'edit'    => 'edit',
+            'update'  => 'update',
             'destroy' => 'destroy',
         ]]);
-});
+    });
 
 Route::group([
         'middleware' => [
             'web', 'laralum.base', 'laralum.auth',
             'can:access,Laralum\Tickets\Models\Ticket',
         ],
-        'prefix' => config('laralum.settings.base_url'),
+        'prefix'    => config('laralum.settings.base_url'),
         'namespace' => 'Laralum\Tickets\Controllers',
-        'as' => 'laralum::'
+        'as'        => 'laralum::',
     ], function () {
         Route::post('tickets/settings', 'SettingsController@update')->name('tickets.settings.update');
 
@@ -60,4 +60,4 @@ Route::group([
 
         Route::resource('messages', 'TicketController');
         Route::resource('tickets', 'TicketController');
-});
+    });

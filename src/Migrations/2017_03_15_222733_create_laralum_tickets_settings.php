@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 use Laralum\Tickets\Models\Settings;
 
 class CreateLaralumTicketsSettings extends Migration
@@ -22,8 +22,8 @@ class CreateLaralumTicketsSettings extends Migration
         });
 
         Settings::create([
-            'text_editor' => "markdown",
-            'public_url' => "tickets",
+            'text_editor' => 'markdown',
+            'public_url'  => 'tickets',
         ]);
     }
 

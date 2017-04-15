@@ -2,9 +2,9 @@
 
 namespace Laralum\Tickets\Policies;
 
-use Laralum\Users\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Laralum\Tickets\Models\Ticket;
+use Laralum\Users\Models\User;
 
 class TicketPolicy
 {
@@ -26,7 +26,8 @@ class TicketPolicy
     /**
      * Determine if the current user can access tickets module (public).
      *
-     * @param  mixed $user
+     * @param mixed $user
+     *
      * @return bool
      */
     public function access($user)
@@ -37,7 +38,8 @@ class TicketPolicy
     /**
      * Determine if the current user can access tickets module (public).
      *
-     * @param  mixed $user
+     * @param mixed $user
+     *
      * @return bool
      */
     public function publicAccess($user)
@@ -48,7 +50,8 @@ class TicketPolicy
     /**
      * Determine if the current user can create tickets.
      *
-     * @param  mixed  $user
+     * @param mixed $user
+     *
      * @return bool
      */
     public function create($user)
@@ -59,7 +62,8 @@ class TicketPolicy
     /**
      * Determine if the current user can create tickets (public).
      *
-     * @param  mixed  $user
+     * @param mixed $user
+     *
      * @return bool
      */
     public function publicCreate($user)
@@ -67,12 +71,12 @@ class TicketPolicy
         return User::findOrFail($user->id)->hasPermission('laralum::tickets.create-public');
     }
 
-
     /**
      * Determine if the current user can view tickets.
      *
-     * @param  mixed $user
-     * @param  Laralum\Ticket\Models\Ticket $ticket
+     * @param mixed                        $user
+     * @param Laralum\Ticket\Models\Ticket $ticket
+     *
      * @return bool
      */
     public function view($user, Ticket $ticket)
@@ -80,14 +84,16 @@ class TicketPolicy
         if ($ticket->user_id != $user->id) {
             return User::findOrFail($user->id)->superAdmin();
         }
+
         return User::findOrFail($user->id)->hasPermission('laralum::tickets.view');
     }
 
     /**
      * Determine if the current user can view tickets (public).
      *
-     * @param  mixed $user
-     * @param  Laralum\Ticket\Models\Ticket $ticket
+     * @param mixed                        $user
+     * @param Laralum\Ticket\Models\Ticket $ticket
+     *
      * @return bool
      */
     public function publicView($user, Ticket $ticket)
@@ -95,14 +101,16 @@ class TicketPolicy
         if ($ticket->user_id == $user->id) {
             return User::findOrFail($user->id)->hasPermission('laralum::tickets.view-public');
         }
+
         return false;
     }
 
     /**
      * Determine if the current user can update tickets.
      *
-     * @param  mixed $user
-     * @param  Laralum\Ticket\Models\Ticket $ticket
+     * @param mixed                        $user
+     * @param Laralum\Ticket\Models\Ticket $ticket
+     *
      * @return bool
      */
     public function update($user, Ticket $ticket)
@@ -110,14 +118,16 @@ class TicketPolicy
         if ($ticket->admin_id == $user->id) {
             return true;
         }
+
         return User::findOrFail($user->id)->hasPermission('laralum::tickets.update');
     }
 
     /**
      * Determine if the current user can update tickets (public).
      *
-     * @param  mixed $user
-     * @param  Laralum\Ticket\Models\Ticket $ticket
+     * @param mixed                        $user
+     * @param Laralum\Ticket\Models\Ticket $ticket
+     *
      * @return bool
      */
     public function publicUpdate($user, Ticket $ticket)
@@ -125,14 +135,16 @@ class TicketPolicy
         if ($ticket->user_id == $user->id) {
             return User::findOrFail($user->id)->hasPermission('laralum::tickets.update-public');
         }
+
         return false;
     }
 
     /**
      * Determine if the current user can delete tickets.
      *
-     * @param  mixed $user
-     * @param  Laralum\Ticket\Models\Ticket $ticket
+     * @param mixed                        $user
+     * @param Laralum\Ticket\Models\Ticket $ticket
+     *
      * @return bool
      */
     public function delete($user, Ticket $ticket)
@@ -140,14 +152,16 @@ class TicketPolicy
         if ($ticket->admin_id == $user->id) {
             return true;
         }
+
         return User::findOrFail($user->id)->hasPermission('laralum::tickets.delete');
     }
 
     /**
      * Determine if the current user can delete tickets (public).
      *
-     * @param  mixed $user
-     * @param  Laralum\Ticket\Models\Ticket $ticket
+     * @param mixed                        $user
+     * @param Laralum\Ticket\Models\Ticket $ticket
+     *
      * @return bool
      */
     public function publicDelete($user, Ticket $ticket)
@@ -155,14 +169,16 @@ class TicketPolicy
         if ($ticket->user_id == $user->id) {
             return User::findOrFail($user->id)->hasPermission('laralum::tickets.delete-public');
         }
-        return False;
+
+        return false;
     }
 
     /**
      * Determine if the current user can reply this ticket.
      *
-     * @param  mixed $user
-     * @param  Laralum\Ticket\Models\Ticket $ticket
+     * @param mixed                        $user
+     * @param Laralum\Ticket\Models\Ticket $ticket
+     *
      * @return bool
      */
     public function reply($user, Ticket $ticket)
@@ -170,14 +186,16 @@ class TicketPolicy
         if ($ticket->admin_id == $user->id) {
             return true;
         }
+
         return User::findOrFail($user->id)->hasPermission('laralum::tickets.reply');
     }
 
     /**
      * Determine if the current user can reply this ticket.
      *
-     * @param  mixed $user
-     * @param  Laralum\Ticket\Models\Ticket $ticket
+     * @param mixed                        $user
+     * @param Laralum\Ticket\Models\Ticket $ticket
+     *
      * @return bool
      */
     public function publicReply($user, Ticket $ticket)
@@ -185,15 +203,16 @@ class TicketPolicy
         if ($ticket->user_id == $user->id) {
             return User::findOrFail($user->id)->hasPermission('laralum::tickets.reply-public');
         }
+
         return false;
     }
-
 
     /**
      * Determine if the current user can change status of this ticket.
      *
-     * @param  mixed $user
-     * @param  Laralum\Ticket\Models\Ticket $ticket
+     * @param mixed                        $user
+     * @param Laralum\Ticket\Models\Ticket $ticket
+     *
      * @return bool
      */
     public function status($user, Ticket $ticket)
@@ -201,14 +220,16 @@ class TicketPolicy
         if ($ticket->admin_id == $user->id) {
             return true;
         }
+
         return User::findOrFail($user->id)->hasPermission('laralum::tickets.status');
     }
 
     /**
      * Determine if the current user can change status of this ticket.
      *
-     * @param  mixed $user
-     * @param  Laralum\Ticket\Models\Ticket $ticket
+     * @param mixed                        $user
+     * @param Laralum\Ticket\Models\Ticket $ticket
+     *
      * @return bool
      */
     public function publicStatus($user, Ticket $ticket)
@@ -216,6 +237,7 @@ class TicketPolicy
         if ($ticket->user_id == $user->id) {
             return User::findOrFail($user->id)->hasPermission('laralum::tickets.status-public');
         }
+
         return false;
     }
 }

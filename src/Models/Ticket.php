@@ -3,7 +3,6 @@
 namespace Laralum\Tickets\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Laralum\Tickets\Models\Message;
 
 class Ticket extends Model
 {
@@ -13,7 +12,6 @@ class Ticket extends Model
      * @var string
      */
     protected $table = 'laralum_tickets';
-
 
     /**
      * The attributes that are mass assignable.
@@ -52,8 +50,7 @@ class Ticket extends Model
     public function deleteMessages()
     {
         $this->hasMany('Laralum\Tickets\Models\Message')->delete();
+
         return true;
     }
-
-
 }

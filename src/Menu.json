@@ -1,11 +1,11 @@
 {
     "items": [
         {
-            "text": "Ticket List",
+            "trans": "laralum_tickets::general.ticket_list",
             "route": "laralum::tickets.index"
         },
         {
-            "text": "Create Ticket",
+            "trans": "laralum_tickets::general.create_ticket",
             "route": "laralum::tickets.create"
         }
     ]

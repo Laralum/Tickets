@@ -31,7 +31,7 @@ return [
     'customer_support'            => 'Kundendienst',
     'status'                      => 'Status',
     'ticket_status'               => 'Ticketstatus',
-    'tickets_status'              => 'Tickets Status',
+    'tickets_status'              => 'Kartenstatus',
     'close'                       => 'Schließen',
     'closed'                      => 'Ticket #:id wurde geschlossen',
     'ticket_closed'               => 'Ticket geschlossen',

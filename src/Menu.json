@@ -1,10 +1,12 @@
 {
     "items": [
         {
+            "permission" : "laralum::tickets.access",
             "trans": "laralum_tickets::general.ticket_list",
             "route": "laralum::tickets.index"
         },
         {
+            "permission" : "laralum::tickets.create",
             "trans": "laralum_tickets::general.create_ticket",
             "route": "laralum::tickets.create"
         }

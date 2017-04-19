@@ -31,7 +31,7 @@ return [
     'customer_support'            => 'Servei al client',
     'status'                      => 'Estat',
     'ticket_status'               => 'Estat del tiquet',
-    'tickets_status'              => "Estat dels tiquets",
+    'tickets_status'              => 'Estat dels tiquets',
     'close'                       => 'Tancar',
     'closed'                      => 'El tiquet #:id ha estat tancada',
     'ticket_closed'               => 'Tiquet tancat',

@@ -13,7 +13,7 @@ return [
     'ticket'                      => 'Tiquet',
     'ticket_id'                   => 'Ticket #:id',
     'tickets'                     => 'Entrades',
-    'tickets_desc'                => "Les butlletes s'inclouen amb el suport i contacte opcions de gran Custommer per als seus usuaris",
+    'tickets_desc'                => "Els tickets t'ofereixen un sistema de contacte entre els administradors de la app, i els seus usuaris",
     'tickets_show_desc'           => 'Mostra missatges de tiquets',
     'subject'                     => 'Assignatura',
     'messages'                    => 'Missatges',
@@ -30,8 +30,8 @@ return [
     'reply'                       => 'Respondre',
     'customer_support'            => 'Servei al client',
     'status'                      => 'Estat',
-    'ticket_status'               => 'Estat dels tiquets',
-    'tickets_status'              => "Tiquets d'Estat",
+    'ticket_status'               => 'Estat del tiquet',
+    'tickets_status'              => "Estat dels tiquets",
     'close'                       => 'Tancar',
     'closed'                      => 'El tiquet #:id ha estat tancada',
     'ticket_closed'               => 'Tiquet tancat',
@@ -39,7 +39,7 @@ return [
     'open'                        => 'Obert',
     'ticket_open'                 => 'Ticket obert',
     'open_tickets'                => 'Tiquets oberts',
-    'reopened'                    => 'Var0 tiquet ha estat obert de nou',
+    'reopened'                    => 'El tiquet #:id ha estat obert de nou',
     'no_closed_tickets'           => 'No hi ha tiquets tancats!',
     'no_opened_tickets'           => 'No hi ha tiquets oberts!',
     'creation_date'               => 'Data de creació',
@@ -75,4 +75,7 @@ return [
     'wysiwyg'                     => 'WYSIWYG',
     'text_editor_desc'            => 'Seleccionar un editor de text per als missatges',
     'tickets_settings_updated'    => 'Ajustos de tickets actualizats',
+
+    'no_data'                     => 'No hi ha dades suficients per mostrar aquest gràfic',
+
 ];

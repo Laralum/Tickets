@@ -75,4 +75,6 @@ return [
     'wysiwyg'                     => 'WYSIWYG',
     'text_editor_desc'            => 'Selezionare un editor di testo per i messaggi',
     'tickets_settings_updated'    => 'Biglietti impostazioni aggiornate',
+
+    'no_data'                     => "Non c'è abbastanza dati per visualizzare questo grafico",
 ];

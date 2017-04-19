@@ -75,4 +75,6 @@ return [
     'wysiwyg'                     => 'WYSIWYG',
     'text_editor_desc'            => 'Wählen Sie einen Texteditor für Nachrichten aus',
     'tickets_settings_updated'    => 'Tickets Einstellungen aktualisiert',
+    
+    'no_data'                     => 'Es gibt nicht genügend Daten, um dieses Diagramm anzuzeigen',
 ];

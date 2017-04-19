@@ -88,4 +88,6 @@ return [
     'wysiwyg'                  => 'WYSIWYG',
     'text_editor_desc'         => 'Select a text editor for messages',
     'tickets_settings_updated' => 'Tickets settings updated',
+
+    'no_data'                  => "There's not enough data to display this chart",
 ];

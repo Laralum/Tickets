@@ -139,15 +139,15 @@ class TicketsServiceProvider extends ServiceProvider
 
         $this->loadTranslationsFrom(__DIR__.'/Translations', 'laralum_tickets');
 
+        $this->app->register('GrahamCampbell\\Markdown\\MarkdownServiceProvider');
+        
         if (!$this->app->routesAreCached()) {
             require __DIR__.'/Routes/web.php';
         }
 
         $this->publishes([
-            __DIR__.'/Views/public' => resource_path('views/vendor/laralum/tickets'),
+            __DIR__.'/Views/public' => resource_path('views/vendor/laralum_tickets/public'),
         ], 'laralum_tickets');
-
-        $this->app->register('GrahamCampbell\\Markdown\\MarkdownServiceProvider');
 
         $this->loadViewsFrom(__DIR__.'/Views', 'laralum_tickets'); //Loading private views
         //$this->loadViewsFrom(resource_path('views/vendor/Laralum/Tickets'), 'laralum_tickets_public'); //Loading public views

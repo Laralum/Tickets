@@ -140,7 +140,7 @@ class TicketsServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/Translations', 'laralum_tickets');
 
         $this->app->register('GrahamCampbell\\Markdown\\MarkdownServiceProvider');
-        
+
         if (!$this->app->routesAreCached()) {
             require __DIR__.'/Routes/web.php';
         }

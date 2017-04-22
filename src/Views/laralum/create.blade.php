@@ -1,3 +1,6 @@
+@php
+    $settings = \Laralum\Tickets\Models\Settings::first();
+@endphp
 @extends('laralum::layouts.master')
 @section('icon', 'ion-plus-round')
 @section('title', __('laralum_tickets::general.create_ticket'))
@@ -37,8 +40,12 @@
 
                                 <div class="uk-margin">
                                     <label class="uk-form-label">@lang('laralum_tickets::general.message')</label>
-                                    <textarea name="message" class="uk-textarea" rows="5" placeholder="@lang('laralum_tickets::general.message')">{{ old('message') }}</textarea>
-                                    <i>@lang('laralum_tickets::general.mkdown_supported')</i>
+                                    <textarea name="message" class="uk-textarea" rows="5" placeholder="{{ __('laralum_tickets::general.message') }}">{{ old('message') }}</textarea>
+                                    @if ($settings->text_editor == 'markdown')
+                                        <i>@lang('laralum_blog::general.markdown')</i>
+                                    @else
+                                        <i>@lang('laralum_blog::general.plain_text')</i>
+                                    @endif
                                 </div>
 
                                 <div class="uk-margin">

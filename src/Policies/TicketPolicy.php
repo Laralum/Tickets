@@ -81,8 +81,8 @@ class TicketPolicy
      */
     public function view($user, Ticket $ticket)
     {
-        if ($ticket->user_id != $user->id) {
-            return User::findOrFail($user->id)->superAdmin();
+        if ($ticket->admin_id == $user->id) {
+            return true;
         }
 
         return User::findOrFail($user->id)->hasPermission('laralum::tickets.view');
